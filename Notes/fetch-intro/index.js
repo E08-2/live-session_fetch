@@ -27,7 +27,7 @@
 // After this, we will look at how to use fetch() in the same way to get data from a server!
 
 const getDataFromTextFile = async () => {
-    let response = await fetch("./test.txt");   // Step 1: Make fetch request, wait for response object
+    let response = await fetch("./test2.txt");   // Step 1: Make fetch request, wait for response object
     
     if (response.ok) {  // If the request succeeded...
         console.log("Value of response.ok:", response.ok);
@@ -40,4 +40,66 @@ const getDataFromTextFile = async () => {
     }
 }
 
-getDataFromTextFile();
+// getDataFromTextFile();
+
+// ==============================================================
+
+// * FETCH EXAMPLE 2: Using fetch() to GET data from a server
+
+// * Note: For demonstration purposes, we will use the URL: https://jsonplaceholder.typicode.com/
+// This is a website we can use to practice sending HTTP requests.
+
+// ===============================
+
+// We will use fetch requests throughout this course to get data from servers. .
+// We can send requests in this way to any server APIs which return data in a JSON (or XML) format.
+
+// ? Ok, so what is an API?
+
+// Introduction video: https://www.youtube.com/watch?v=s7wmiS2mSXY
+
+// API = "Application Progamming Interface".
+// The "messenger" which takes a request from a client, processes the request, and sends a response back to the client.
+
+// * So let's try to send a fetch request to the above URL...
+
+// =========================================================
+// * EXAMPLE 2A - Traditional Promise syntax (using .then())
+// =========================================================
+
+const getDataFromServer = () => {
+    // Use fetch() to request a resource from the following URL:
+    //     scheme  domain                       path to resource
+    //     ^       ^                            ^
+    fetch("https://jsonplaceholder.typicode.com/todos/1")   // * Step 1 Part 1 - Make (asynchronous) fetch request - returns a Promise!
+    .then(response => {                                     // * Step 1 Part 2 - THEN, when the promise resolves we get a Response object...
+        if (response.ok) {                                  // ? "Did my request succeed?"
+            return response.json();                         // * Step 2A Part 1: If yes, call the (asynchronous) .json() method - returns a Promise!
+                                                            //    This will "translate" the data in the response so you can use it...
+        } else {
+            console.log("Something went wrong!");           // * Step 2B: If no, log a message to confirm request failure
+        }
+    }).
+    then(data => {                                          // *Step 2A Part 2 - THEN, when the data has been translated...
+        console.log("Here is the data:", data);             // Log the data!
+    });                                                     // ! Still needed - better error handling in case of failure!
+}
+
+// getDataFromServer();
+
+// =========================================================
+// * EXAMPLE 2A - Async/await syntax
+// =========================================================
+
+const getDataFromServerAsyncAwait = async () => {
+    let response = await fetch("https://jsonplaceholder.typicode.com/todos/1");
+
+    if (response.ok) {
+        let data = await response.json();
+        console.log(data);
+    } else {
+        console.log("Request was not successful");
+    }
+}
+
+getDataFromServerAsyncAwait();
